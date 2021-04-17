@@ -123,10 +123,12 @@ private fun RemoveButton(
 
 @Composable
 private fun NodeChildren(children: SnapshotStateList<NodeModel>) {
-    Box(modifier = Modifier.padding(start = 16.dp)) {
+    Box(modifier = Modifier.padding(start = 16.dp).fillMaxWidth()) {
         Column {
             for (child in children) {
-                Node(child, onRemove = { children.remove(it) })
+                key(child.hashCode()) {
+                    Node(child, onRemove = { children.remove(it) })
+                }
             }
         }
     }
