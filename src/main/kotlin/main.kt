@@ -34,10 +34,7 @@ fun main() = Window(
                     .padding(16.dp)
             ) {
                 val root = remember { mutableStateOf(NodeModel("Root")) }
-                Column {
-                    Spacer(Modifier.size(10.dp))
-                    Node(root.value)
-                }
+                Node(root.value)
             }
         }
     }
