@@ -59,9 +59,15 @@ fun Node(item: NodeModel, onRemove: ((NodeModel) -> Unit)? = null) {
             .border(BorderStroke(1.dp, Color.White))
             .padding(8.dp)
     ) {
-        NodeContent(item, onRemove)
-        Spacer(Modifier.size(6.dp))
-        AddButton(children)
+        NodeContent(
+            item,
+            onRemove = onRemove,
+            onAdd = {
+                val element = NodeModel("Node")
+                println("Add: ${element.hashCode()}")
+                children.add(children.size, element)
+            }
+        )
         Spacer(Modifier.size(6.dp))
         NodeChildren(children)
     }
@@ -70,7 +76,8 @@ fun Node(item: NodeModel, onRemove: ((NodeModel) -> Unit)? = null) {
 @Composable
 private fun NodeContent(
     item: NodeModel,
-    onRemove: ((NodeModel) -> Unit)?
+    onRemove: ((NodeModel) -> Unit)?,
+    onAdd: () -> Unit,
 ) {
     Row {
         Text(
@@ -83,16 +90,14 @@ private fun NodeContent(
             RemoveButton(onRemove, item)
         }
     }
+    Spacer(Modifier.size(6.dp))
+    AddButton(onAdd)
 }
 
 @Composable
-private fun AddButton(children: SnapshotStateList<NodeModel>) {
+private fun AddButton(onAdd: () -> Unit) {
     Button(
-        onClick = {
-            val item = NodeModel("Node")
-            println("Add: ${item.hashCode()}")
-            children.add(children.size, item)
-        }
+        onClick = { onAdd.invoke() }
     ) {
         Text(text = "Add Node")
     }
