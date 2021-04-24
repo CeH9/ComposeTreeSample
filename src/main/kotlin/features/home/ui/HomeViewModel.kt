@@ -1,6 +1,7 @@
 package features.home.ui
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import features.home.data.models.NodeModel
 import features.home.ui.models.NodeUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +31,9 @@ class HomeViewModel {
     val state: StateFlow<State> = _state
 
 
+    // --------------------------------------------------------------------------------
+    //                                  View Events
+    // --------------------------------------------------------------------------------
     fun onEditNodeClicked(node: NodeUiModel, parentList: SnapshotStateList<NodeUiModel>?) {
         val oldState = _state.value
 
@@ -84,5 +88,12 @@ class HomeViewModel {
         _state.value = oldState.copy(
             editor = oldState.editor.copy(input = value)
         )
+    }
+
+    fun onDoneClicked() {
+        println("onDoneClicked")
+
+        val domainModel = _state.value.root.toDomainModel()
+        // todo some UseCase with "domain model"
     }
 }

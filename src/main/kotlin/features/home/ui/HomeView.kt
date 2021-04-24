@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -33,16 +36,26 @@ fun HomeView(viewModel: HomeViewModel) {
 @Composable
 private fun MainContent(state: HomeViewModel.State) {
     println("Visit MainContent")
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val viewModel = CompositionKeys.ViewModel.current
+    val viewModel = CompositionKeys.ViewModel.current
 
-        Node(
-            item = state.root,
-            onEdit = { viewModel.onEditNodeClicked(state.root, null) },
-        )
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Button(
+            onClick = { viewModel.onDoneClicked() },
+        ) {
+            Text("Job's Done!")
+        }
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Node(
+                item = state.root,
+                onEdit = { viewModel.onEditNodeClicked(state.root, null) },
+            )
+        }
     }
 }
 

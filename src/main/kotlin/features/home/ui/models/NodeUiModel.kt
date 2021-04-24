@@ -2,6 +2,7 @@ package features.home.ui.models
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import features.home.data.models.NodeModel
 
 class NodeUiModel(
     val name: String,
@@ -16,5 +17,12 @@ class NodeUiModel(
     ) = NodeUiModel(
         name,
         children
+    )
+
+    fun toDomainModel(): NodeModel = NodeModel(
+        name = name,
+        children = children.map {
+            it.toDomainModel()
+        }
     )
 }
