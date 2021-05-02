@@ -4,20 +4,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import features.home.data.models.NodeModel
 
-class NodeUiModel(
+data class NodeUiModel(
     val name: String,
     val children: SnapshotStateList<NodeUiModel> = mutableStateListOf()
 ) {
     override fun equals(other: Any?) = this === other
-    // ignore hashcode
-
-    fun copy(
-        name: String = this.name,
-        children: SnapshotStateList<NodeUiModel> = this.children,
-    ) = NodeUiModel(
-        name,
-        children
-    )
+    override fun hashCode() = System.identityHashCode(this)
 
     fun toDomainModel(): NodeModel = NodeModel(
         name = name,
